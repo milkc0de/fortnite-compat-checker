@@ -584,13 +584,13 @@
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDから、強さの近さ・温度感・ペア格を分けて、一緒に組んだときの相性を100点満点で診断します。比較データの一部だけ120基準です。
+        2人のEpic IDから、強さの近さ・温度感・ペア格を分けて、相性を100点満点で診断します。これは公開プロフィール情報から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。
       </p>
 
       <form id="diagnoseForm" class="form-card">
         <div>
           <label for="name1">自分のEpic ID</label>
-          <input id="name1" name="name1" autocomplete="off" spellcheck="false" placeholder="例: milkc0de" />
+          <input id="name1" name="name1" autocomplete="off" spellcheck="false" placeholder="例: 自分のEpic ID" />
         </div>
 
         <div>
@@ -627,10 +627,11 @@
       <div>
         <div class="pair">
           <span id="playerNames">2人のEpic IDを入れて診断してください</span>
-          <span id="sourceBadge" class="badge">公開プロフィール診断</span>
+          <span id="sourceBadge" class="badge">参考までの相性診断</span>
         </div>
         <h2 id="resultTitle" class="result-title">まだ診断していません</h2>
         <p id="commentText" class="comment">2人のIDを入れて「診断する」を押すと、ここに結果が出ます。</p>
+        <p id="disclaimerText" class="comment" style="font-size:13px;color:#9a899c;margin-top:8px;">※ あくまでも参考までの遊び診断です。実力・人格・上下関係を断定するものではありません。</p>
       </div>
     </section>
 
@@ -747,6 +748,7 @@
       renderAdvice(data);
       renderComparisons(data, player1, player2);
       renderCalculationDetails(data);
+      setText("disclaimerText", data.disclaimer ? "※ " + data.disclaimer : "※ あくまでも参考までの遊び診断です。実力・人格・上下関係を断定するものではありません。");
       renderWarnings(data);
     }
 
@@ -853,10 +855,6 @@
 
       const grid = document.createElement("div");
       grid.className = "comparison-grid";
-
-      grid.appendChild(cell("Epic ID", "comparison-cell comparison-head"));
-      grid.appendChild(cell(p1Name, "comparison-cell comparison-head"));
-      grid.appendChild(cell(p2Name, "comparison-cell comparison-head"));
 
       for (const item of comparisons) {
         const label = toText(item.label, "-");
@@ -984,7 +982,7 @@
     }
 
     function sourceLabel(source) {
-      return "公開プロフィール診断";
+      return "参考までの相性診断";
     }
 
     function formatValue(value, suffix) {
