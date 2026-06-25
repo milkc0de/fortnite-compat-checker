@@ -584,18 +584,18 @@
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDから、強さの絶対値と噛み合いの両方を見て、一緒に組んだときの相性を120点基準で診断します。
+        2人のEpic IDから、強さの絶対値・実力差・噛み合いを見て、甘すぎない120点基準で診断します。
       </p>
 
       <form id="diagnoseForm" class="form-card">
         <div>
           <label for="name1">自分のEpic ID</label>
-          <input id="name1" name="name1" autocomplete="off" spellcheck="false" value="" />
+          <input id="name1" name="name1" autocomplete="off" spellcheck="false" placeholder="例：自分のEpic ID" />
         </div>
 
         <div>
           <label for="name2">相手のEpic ID</label>
-          <input id="name2" name="name2" autocomplete="off" spellcheck="false" value="" />
+          <input id="name2" name="name2" autocomplete="off" spellcheck="false" placeholder="例：相手のEpic ID" />
         </div>
 
         <div>
@@ -762,8 +762,9 @@
         root.innerHTML = `<div class="empty">相性パラメータを取得できませんでした。</div>`;
         return;
       }
+
       for (const axis of axes) {
-       const label = toText(axis.label, axis.key || "-");
+        const label = toText(axis.label, axis.key || "-");
         const score = clamp(toNumber(axis.score, 0), 0, maxScore);
         const width = clamp(score / maxScore * 100, 0, 100);
         const description = toText(axis.description, "");
@@ -852,7 +853,6 @@
 
       const grid = document.createElement("div");
       grid.className = "comparison-grid";
-
 
       for (const item of comparisons) {
         const label = toText(item.label, "-");
@@ -980,8 +980,8 @@
     }
 
     function sourceLabel(source) {
-      if (source === "profile_ranked_progress_level_events_v4") {
-        return "公開プロフィール診断 v4";
+      if (source === "profile_ranked_progress_level_events_v6") {
+        return "公開プロフィール診断 v6";
       }
 
       return source ? String(source) : "公開プロフィール診断";
