@@ -584,7 +584,7 @@
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDから、ランク帯・活動量・大会経験・ガチ度・補完性を見て、一緒に組んだときの相性を診断します。
+        2人のEpic IDから、強さの絶対値と噛み合いの両方を見て、一緒に組んだときの相性を120点基準で診断します。
       </p>
 
       <form id="diagnoseForm" class="form-card">
@@ -717,7 +717,8 @@
     });
 
     function renderResult(data) {
-      const score = clamp(toNumber(data.score, 0), 0, 100);
+      const maxScore = clamp(toNumber(data.maxScore, 120), 1, 999);
+      const score = clamp(toNumber(data.score, 0), 0, maxScore);
       const grade = toText(data.grade, "-");
       const title = toText(data.title, "診断結果");
       const comment = toText(data.comment, "");
@@ -741,7 +742,7 @@
         badge.textContent = sourceLabel(data.source);
       }
 
-      renderScoreRing(score);
+      renderScoreRing(score, maxScore);
       renderAxes(data);
       renderAdvice(data);
       renderComparisons(data, player1, player2);
@@ -754,6 +755,7 @@
       if (!root) return;
 
       const axes = normalizeAxes(data);
+      const maxScore = clamp(toNumber(data.maxScore, 120), 1, 999);
       root.innerHTML = "";
 
       if (axes.length === 0) {
@@ -763,7 +765,8 @@
 
       for (const axis of axes) {
         const label = toText(axis.label, axis.key || "-");
-        const score = clamp(toNumber(axis.score, 0), 0, 100);
+        const score = clamp(toNumber(axis.score, 0), 0, maxScore);
+        const width = clamp(score / maxScore * 100, 0, 100);
         const description = toText(axis.description, "");
 
         const row = document.createElement("div");
@@ -774,7 +777,7 @@
             <div class="axis-score">${score}</div>
           </div>
           <div class="axis-bar">
-            <div class="axis-fill" style="width: ${score}%"></div>
+            <div class="axis-fill" style="width: ${width}%"></div>
           </div>
           <div class="axis-desc">${escapeHtml(description)}</div>
         `;
@@ -851,7 +854,7 @@
       const grid = document.createElement("div");
       grid.className = "comparison-grid";
 
-      grid.appendChild(cell("項目", "comparison-cell comparison-head"));
+      grid.appendChild(cell("Epic ID", "comparison-cell comparison-head"));
       grid.appendChild(cell(p1Name, "comparison-cell comparison-head"));
       grid.appendChild(cell(p2Name, "comparison-cell comparison-head"));
 
@@ -927,10 +930,11 @@
       }
     }
 
-    function renderScoreRing(score) {
+    function renderScoreRing(score, maxScore) {
       const ring = document.getElementById("scoreRing");
       if (!ring) return;
-      ring.style.setProperty("--score", String(clamp(toNumber(score, 0), 0, 100)));
+      const percent = clamp(toNumber(score, 0) / clamp(toNumber(maxScore, 120), 1, 999) * 100, 0, 100);
+      ring.style.setProperty("--score", String(percent));
     }
 
     function cell(value, className, mobileLabel) {
@@ -980,8 +984,8 @@
     }
 
     function sourceLabel(source) {
-      if (source === "profile_ranked_progress_level_events_v2") {
-        return "公開プロフィール診断 v2";
+      if (source === "profile_ranked_progress_level_events_v4") {
+        return "公開プロフィール診断 v4";
       }
 
       return source ? String(source) : "公開プロフィール診断";
