@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fortnite 相性診断</title>
+  <style>
+    :root {
+      --bg: #0d1020;
+      --panel: #171b34;
+      --panel2: #202647;
+      --text: #f7f7ff;
+      --muted: #b8bdd8;
+      --accent: #ff7bd5;
+      --accent2: #7bdcff;
+      --danger: #ff8b8b;
+      --ok: #92f7b5;
+      --line: rgba(255,255,255,0.12);
+      --shadow: 0 24px 80px rgba(0,0,0,0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,123,213,0.28), transparent 30%),
+        radial-gradient(circle at 80% 0%, rgba(123,220,255,0.25), transparent 32%),
+        linear-gradient(160deg, #0d1020 0%, #12162a 45%, #080a14 100%);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1000px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 34px 0 60px;
+    }
+
+    .hero {
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: rgba(23,27,52,0.78);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 6vw, 52px);
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto auto;
+      gap: 12px;
+      margin-top: 24px;
+      align-items: end;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input, select, button {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(123,220,255,0.75);
+      box-shadow: 0 0 0 4px rgba(123,220,255,0.12);
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #111424;
+      border: 0;
+      min-width: 140px;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: progress;
+    }
+
+    .status {
+      margin-top: 16px;
+      color: var(--muted);
+      min-height: 24px;
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: rgba(23,27,52,0.78);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .scoreCard {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .scoreRing {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at center, var(--panel) 0 58%, transparent 59%),
+        conic-gradient(var(--accent) var(--deg), rgba(255,255,255,0.12) 0);
+      border: 1px solid var(--line);
+    }
+
+    .scoreNumber {
+      font-size: 46px;
+      font-weight: 900;
+    }
+
+    .scoreLabel {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .sub {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .axis {
+      display: grid;
+      gap: 12px;
+    }
+
+    .barRow {
+      display: grid;
+      grid-template-columns: 110px 1fr 44px;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .bar {
+      height: 12px;
+      background: rgba(255,255,255,0.10);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar > span {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 99px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 10px;
+      text-align: left;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    td {
+      font-weight: 650;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 820px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .scoreCard {
+        grid-template-columns: 1fr;
+      }
+
+      .scoreRing {
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Fortnite 相性診断 🎮</h1>
+      <p class="lead">
+        2人のEpic IDを入れると、公開戦績から「実力差」「安定感」「チーム適性」「役割補完」「テンポ」を見て、一緒に組んだときの相性を出します。
+      </p>
+
+      <form id="form">
+        <label>
+          自分のEpic ID
+          <input id="name1" autocomplete="off" placeholder="例: milkc0de" required>
+        </label>
+
+        <label>
+          相手のEpic ID
+          <input id="name2" autocomplete="off" placeholder="例: PlayerName" required>
+        </label>
+
+        <label>
+          期間
+          <select id="days">
+            <option value="all">全期間</option>
+            <option value="30">直近30日</option>
+            <option value="90">直近90日</option>
+            <option value="180">直近180日</option>
+          </select>
+        </label>
+
+        <button id="submit" type="submit">診断する</button>
+      </form>
+
+      <div id="status" class="status"></div>
+    </section>
+
+    <section id="result" class="hidden">
+      <div class="card scoreCard">
+        <div class="scoreRing" id="scoreRing">
+          <div class="scoreNumber" id="scoreNumber">0</div>
+        </div>
+        <div>
+          <div class="scoreLabel" id="scoreLabel"></div>
+          <div class="sub" id="scoreSub"></div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h2>5軸スコア</h2>
+          <div class="axis" id="axes"></div>
+        </div>
+
+        <div class="card">
+          <h2>診断コメント</h2>
+          <ul id="comments"></ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>比較データ</h2>
+        <div id="metrics"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const WORKER_URL = "https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev";
+
+    const form = document.getElementById("form");
+    const statusEl = document.getElementById("status");
+    const submit = document.getElementById("submit");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const name1 = document.getElementById("name1").value.trim();
+      const name2 = document.getElementById("name2").value.trim();
+      const days = document.getElementById("days").value;
+
+      if (!name1 || !name2) return;
+
+      statusEl.className = "status";
+      statusEl.textContent = "診断中です。戦績を取得しています。";
+      submit.disabled = true;
+      result.classList.add("hidden");
+
+      try {
+        const params = new URLSearchParams();
+        params.set("name1", name1);
+        params.set("name2", name2);
+        params.set("days", days);
+
+        const res = await fetch(`${WORKER_URL}/diagnose?${params.toString()}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "診断に失敗しました。");
+        }
+
+        render(data);
+        statusEl.textContent = "診断できました。";
+      } catch (error) {
+        statusEl.className = "status error";
+        statusEl.textContent = error.message || String(error);
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    function render(data) {
+      result.classList.remove("hidden");
+
+      document.getElementById("scoreNumber").textContent = String(data.score);
+      document.getElementById("scoreLabel").textContent = data.label;
+      document.getElementById("scoreSub").textContent =
+        `${data.players[0].displayName} × ${data.players[1].displayName}`;
+
+      const deg = Math.max(0, Math.min(100, data.score)) * 3.6;
+      document.getElementById("scoreRing").style.setProperty("--deg", `${deg}deg`);
+
+      const axisNames = {
+        strength: "実力差",
+        stability: "安定感",
+        team: "チーム適性",
+        complement: "役割補完",
+        tempo: "テンポ"
+      };
+
+      const axesHtml = Object.keys(data.axes).map((key) => {
+        const value = data.axes[key];
+        return `
+          <div class="barRow">
+            <div>${escapeHtml(axisNames[key] || key)}</div>
+            <div class="bar"><span style="--w:${value}%"></span></div>
+            <div>${value}</div>
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("axes").innerHTML = axesHtml;
+
+      document.getElementById("comments").innerHTML = data.comments
+        .map((text) => `<li>${escapeHtml(text)}</li>`)
+        .join("");
+
+      renderMetrics(data.players);
+    }
+
+    function renderMetrics(players) {
+      const a = players[0];
+      const b = players[1];
+
+      const rows = [
+        ["タイプ", a.metrics.role, b.metrics.role],
+        ["試合数", fmtInt(a.metrics.matches), fmtInt(b.metrics.matches)],
+        ["勝利数", fmtInt(a.metrics.wins), fmtInt(b.metrics.wins)],
+        ["キル数", fmtInt(a.metrics.kills), fmtInt(b.metrics.kills)],
+        ["K/D", fmt(a.metrics.kd, 2), fmt(b.metrics.kd, 2)],
+        ["勝率", pct(a.metrics.winRate), pct(b.metrics.winRate)],
+        ["1試合キル", fmt(a.metrics.kpm, 2), fmt(b.metrics.kpm, 2)],
+        ["チーム戦比率", pct(a.metrics.teamShare), pct(b.metrics.teamShare)],
+        ["デュオ比率", pct(a.metrics.duoShare), pct(b.metrics.duoShare)]
+      ];
+
+      const html = `
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>${escapeHtml(a.displayName)}</th>
+              <th>${escapeHtml(b.displayName)}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map((row) => `
+              <tr>
+                <th>${escapeHtml(row[0])}</th>
+                <td>${escapeHtml(row[1])}</td>
+                <td>${escapeHtml(row[2])}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+
+      document.getElementById("metrics").innerHTML = html;
+    }
+
+    function fmt(value, digits) {
+      return Number(value || 0).toFixed(digits);
+    }
+
+    function fmtInt(value) {
+      return Math.round(Number(value || 0)).toLocaleString("ja-JP");
+    }
+
+    function pct(value) {
+      return `${(Number(value || 0) * 100).toFixed(1)}%`;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
+</body>
+</html>
