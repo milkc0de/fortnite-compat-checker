@@ -762,8 +762,12 @@
         root.innerHTML = `<div class="empty">相性パラメータを取得できませんでした。</div>`;
         return;
       }
-
+      var ii = 0
       for (const axis of axes) {
+        if (ii == 0) {
+          ii++;
+          continue;
+        }
         const label = toText(axis.label, axis.key || "-");
         const score = clamp(toNumber(axis.score, 0), 0, maxScore);
         const width = clamp(score / maxScore * 100, 0, 100);
@@ -853,7 +857,7 @@
 
       const grid = document.createElement("div");
       grid.className = "comparison-grid";
-
+grid.appendChild(cell("Epic ID", "comparison-cell comparison-head"));
       grid.appendChild(cell(p1Name, "comparison-cell comparison-head"));
       grid.appendChild(cell(p2Name, "comparison-cell comparison-head"));
 
