@@ -584,18 +584,18 @@
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDから、強さの近さ・温度感・ペア格を分けて、一緒に組んだときの相性を120点基準で診断します。
+        2人のEpic IDから、強さの近さ・温度感・ペア格を分けて、一緒に組んだときの相性を100点満点で診断します。比較データの一部だけ120基準です。
       </p>
 
       <form id="diagnoseForm" class="form-card">
         <div>
           <label for="name1">自分のEpic ID</label>
-          <input id="name1" name="name1" autocomplete="off" spellcheck="false" value="" />
+          <input id="name1" name="name1" autocomplete="off" spellcheck="false" placeholder="例: milkc0de" />
         </div>
 
         <div>
           <label for="name2">相手のEpic ID</label>
-          <input id="name2" name="name2" autocomplete="off" spellcheck="false" value="" />
+          <input id="name2" name="name2" autocomplete="off" spellcheck="false" placeholder="例: 相手のEpic ID" />
         </div>
 
         <div>
@@ -626,7 +626,7 @@
 
       <div>
         <div class="pair">
-          <span id="playerNames">Epic IDを入れて診断してください</span>
+          <span id="playerNames">2人のEpic IDを入れて診断してください</span>
           <span id="sourceBadge" class="badge">公開プロフィール診断</span>
         </div>
         <h2 id="resultTitle" class="result-title">まだ診断していません</h2>
@@ -717,7 +717,7 @@
     });
 
     function renderResult(data) {
-      const maxScore = clamp(toNumber(data.maxScore, 120), 1, 999);
+      const maxScore = clamp(toNumber(data.maxScore, 100), 1, 999);
       const score = clamp(toNumber(data.score, 0), 0, maxScore);
       const grade = toText(data.grade, "-");
       const title = toText(data.title, "診断結果");
@@ -755,7 +755,7 @@
       if (!root) return;
 
       const axes = normalizeAxes(data);
-      const maxScore = clamp(toNumber(data.maxScore, 120), 1, 999);
+      const maxScore = clamp(toNumber(data.maxScore, 100), 1, 999);
       root.innerHTML = "";
 
       if (axes.length === 0) {
@@ -933,7 +933,7 @@
     function renderScoreRing(score, maxScore) {
       const ring = document.getElementById("scoreRing");
       if (!ring) return;
-      const percent = clamp(toNumber(score, 0) / clamp(toNumber(maxScore, 120), 1, 999) * 100, 0, 100);
+      const percent = clamp(toNumber(score, 0) / clamp(toNumber(maxScore, 100), 1, 999) * 100, 0, 100);
       ring.style.setProperty("--score", String(percent));
     }
 
