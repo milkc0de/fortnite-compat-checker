@@ -7,39 +7,34 @@
   <meta name="description" content="2人のEpic IDから、公開プロフィール情報を使って一緒に組むときの相性を診断します。" />
   <style>
     :root {
-      --bg-1: #fff8fb;
-      --bg-2: #f5fbff;
-      --bg-3: #fff7dd;
-      --ink: #4b3b4f;
-      --muted: #8b7d91;
-      --card: rgba(255, 255, 255, 0.78);
-      --card-strong: rgba(255, 255, 255, 0.94);
-      --line: rgba(184, 122, 163, 0.22);
+      --bg-1: #fff9fd;
+      --bg-2: #f2fbff;
+      --bg-3: #fff7df;
+      --ink: #45364b;
+      --muted: #87768d;
+      --soft: rgba(255,255,255,0.76);
+      --solid: rgba(255,255,255,0.94);
+      --line: rgba(190, 129, 173, 0.22);
       --pink: #f7a8d8;
-      --pink-strong: #ee78c3;
+      --pink-2: #f28acb;
       --blue: #9edcf5;
       --mint: #bcefdc;
       --cream: #fff0ba;
       --lavender: #d8c8ff;
-      --shadow: 0 22px 60px rgba(132, 85, 122, 0.16);
-      --shadow-soft: 0 12px 30px rgba(132, 85, 122, 0.10);
-      --radius-xl: 34px;
-      --radius-lg: 26px;
-      --radius-md: 18px;
+      --shadow: 0 24px 60px rgba(132, 85, 122, 0.15);
+      --shadow-soft: 0 12px 34px rgba(132, 85, 122, 0.09);
       --font: ui-rounded, "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", "Yu Gothic UI", system-ui, sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html {
       min-height: 100%;
       background:
-        radial-gradient(circle at 10% 10%, rgba(247, 168, 216, 0.36), transparent 28%),
-        radial-gradient(circle at 82% 14%, rgba(158, 220, 245, 0.34), transparent 30%),
-        radial-gradient(circle at 68% 88%, rgba(255, 240, 186, 0.42), transparent 35%),
-        linear-gradient(135deg, var(--bg-1), var(--bg-2) 48%, var(--bg-3));
+        radial-gradient(circle at 12% 8%, rgba(247, 168, 216, 0.35), transparent 28%),
+        radial-gradient(circle at 88% 20%, rgba(158, 220, 245, 0.34), transparent 30%),
+        radial-gradient(circle at 70% 92%, rgba(255, 240, 186, 0.46), transparent 35%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 50%, var(--bg-3));
     }
 
     body {
@@ -50,149 +45,129 @@
       overflow-x: hidden;
     }
 
-    body::before,
-    body::after {
-      content: "";
+    body::before {
+      content: "♡";
       position: fixed;
-      inset: auto;
-      pointer-events: none;
-      border-radius: 999px;
-      filter: blur(1px);
-      opacity: 0.75;
+      left: 20px;
+      top: 84px;
+      font-size: 120px;
+      color: rgba(247, 168, 216, 0.12);
+      transform: rotate(-12deg);
       z-index: -1;
     }
 
-    body::before {
-      width: 360px;
-      height: 360px;
-      left: -120px;
-      top: 220px;
-      background: rgba(255, 201, 229, 0.38);
-    }
-
     body::after {
-      width: 420px;
-      height: 420px;
-      right: -160px;
-      bottom: -120px;
-      background: rgba(187, 239, 220, 0.42);
+      content: "✦";
+      position: fixed;
+      right: 38px;
+      bottom: 52px;
+      font-size: 92px;
+      color: rgba(158, 220, 245, 0.18);
+      transform: rotate(12deg);
+      z-index: -1;
     }
 
     .page {
-      width: min(1120px, calc(100% - 32px));
+      width: min(1160px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 34px 0 64px;
+      padding: 30px 0 64px;
     }
 
     .hero {
       position: relative;
-      padding: 36px;
-      border-radius: var(--radius-xl);
+      padding: 34px;
+      border-radius: 38px;
       background:
-        linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.68)),
-        radial-gradient(circle at 88% 18%, rgba(247, 168, 216, 0.24), transparent 34%);
+        linear-gradient(145deg, rgba(255,255,255,0.94), rgba(255,255,255,0.70)),
+        radial-gradient(circle at 90% 8%, rgba(247, 168, 216, 0.24), transparent 34%);
       box-shadow: var(--shadow);
       border: 1px solid var(--line);
       overflow: hidden;
     }
 
-    .hero::before {
-      content: "♡";
-      position: absolute;
-      right: 40px;
-      top: 18px;
-      font-size: 72px;
-      color: rgba(238, 120, 195, 0.16);
-      transform: rotate(12deg);
-    }
-
     .hero::after {
       content: "";
       position: absolute;
-      width: 160px;
-      height: 160px;
-      right: -42px;
-      bottom: -52px;
-      border-radius: 48% 52% 56% 44%;
-      background: rgba(158, 220, 245, 0.28);
+      width: 180px;
+      height: 180px;
+      right: -60px;
+      bottom: -64px;
+      border-radius: 46% 54% 58% 42%;
+      background: rgba(188, 239, 220, 0.35);
     }
 
-    .brand-row {
+    .brand {
       display: flex;
-      align-items: center;
       gap: 16px;
+      align-items: center;
       flex-wrap: wrap;
       position: relative;
       z-index: 1;
     }
 
     .app-icon {
-      width: 72px;
-      height: 72px;
-      border-radius: 26px;
+      width: 74px;
+      height: 74px;
+      border-radius: 28px;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, #ffe2f2, #dff6ff);
+      background: linear-gradient(135deg, #ffe0f2, #e3f7ff);
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), var(--shadow-soft);
-      border: 1px solid rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.85);
       font-size: 36px;
     }
 
     h1 {
       margin: 0;
-      letter-spacing: -0.04em;
-      font-size: clamp(36px, 6vw, 68px);
+      letter-spacing: -0.05em;
+      font-size: clamp(36px, 6vw, 66px);
       line-height: 1.02;
-      color: #4a3953;
     }
 
     .lead {
       position: relative;
       z-index: 1;
-      margin: 18px 0 0;
+      margin: 16px 0 0;
+      max-width: 920px;
       color: var(--muted);
       font-size: clamp(15px, 2vw, 18px);
+      font-weight: 750;
       line-height: 1.9;
-      max-width: 900px;
-      font-weight: 700;
     }
 
     .form-card {
       position: relative;
       z-index: 1;
-      margin-top: 26px;
+      margin-top: 24px;
       display: grid;
-      grid-template-columns: 1fr 1fr 180px 180px;
+      grid-template-columns: 1fr 1fr 170px 170px;
       gap: 14px;
       align-items: end;
     }
 
     label {
       display: block;
-      color: #7f6d88;
-      font-weight: 800;
+      margin: 0 0 8px;
+      color: #806e88;
       font-size: 14px;
-      margin-bottom: 8px;
+      font-weight: 900;
     }
 
-    input,
-    select {
+    input, select {
       width: 100%;
       height: 58px;
       border: 1px solid rgba(184, 122, 163, 0.25);
       border-radius: 22px;
-      background: rgba(255,255,255,0.82);
+      background: rgba(255,255,255,0.86);
       color: var(--ink);
       padding: 0 18px;
-      font: 800 16px var(--font);
+      font: 850 16px var(--font);
       outline: none;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
-      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.92);
     }
 
-    input:focus,
-    select:focus {
-      border-color: rgba(238, 120, 195, 0.75);
+    input:focus, select:focus {
+      border-color: rgba(242, 138, 203, 0.72);
       box-shadow: 0 0 0 5px rgba(247, 168, 216, 0.18);
     }
 
@@ -201,22 +176,21 @@
       height: 58px;
       border: 0;
       border-radius: 999px;
-      color: #4b3153;
+      color: #493050;
       cursor: pointer;
-      font: 900 17px var(--font);
-      background: linear-gradient(135deg, #f7a8d8, #ffd3e9 48%, #9edcf5);
-      box-shadow: 0 14px 28px rgba(238, 120, 195, 0.28);
-      transition: transform 0.16s ease, filter 0.16s ease, box-shadow 0.16s ease;
+      font: 950 17px var(--font);
+      background: linear-gradient(135deg, #f7a8d8, #ffd3e9 50%, #aee4f7);
+      box-shadow: 0 15px 30px rgba(238, 120, 195, 0.28);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
 
     button:hover {
       transform: translateY(-2px);
-      filter: brightness(1.02);
-      box-shadow: 0 18px 34px rgba(238, 120, 195, 0.34);
+      box-shadow: 0 19px 36px rgba(238, 120, 195, 0.34);
     }
 
     button:disabled {
-      opacity: 0.65;
+      opacity: 0.68;
       cursor: wait;
       transform: none;
     }
@@ -227,28 +201,26 @@
       padding: 14px 16px;
       border-radius: 18px;
       color: #a43c5f;
-      background: rgba(255, 228, 237, 0.92);
+      background: rgba(255, 228, 237, 0.94);
       border: 1px solid rgba(238, 120, 195, 0.28);
-      font-weight: 800;
-      line-height: 1.6;
+      font-weight: 850;
+      line-height: 1.7;
     }
 
-    .error.is-visible {
-      display: block;
-    }
+    .error.is-visible { display: block; }
 
     .result-card {
-      margin-top: 20px;
+      margin-top: 22px;
       padding: 28px;
-      border-radius: var(--radius-xl);
-      background: rgba(255, 255, 255, 0.72);
+      border-radius: 38px;
+      background: var(--soft);
       border: 1px solid var(--line);
       box-shadow: var(--shadow-soft);
       display: grid;
       grid-template-columns: 230px 1fr;
       gap: 26px;
       align-items: center;
-      min-height: 240px;
+      min-height: 242px;
     }
 
     .score-ring {
@@ -257,7 +229,7 @@
       height: 210px;
       border-radius: 50%;
       background:
-        conic-gradient(var(--pink-strong) 0 calc(var(--score) * 1%), rgba(184,122,163,0.14) 0 100%);
+        conic-gradient(var(--pink-2) 0 calc(var(--score) * 1%), rgba(184,122,163,0.14) 0 100%);
       display: grid;
       place-items: center;
       box-shadow: var(--shadow-soft);
@@ -268,8 +240,8 @@
     .score-ring::before {
       content: "";
       position: absolute;
-      width: 154px;
-      height: 154px;
+      width: 156px;
+      height: 156px;
       border-radius: 50%;
       background: linear-gradient(145deg, #fff, #fff7fb);
       box-shadow: inset 0 0 0 1px rgba(184,122,163,0.12);
@@ -285,54 +257,49 @@
       font-size: 58px;
       line-height: 1;
       font-weight: 1000;
-      letter-spacing: -0.05em;
-      color: #4a3953;
+      letter-spacing: -0.06em;
     }
 
     .score-grade {
+      display: inline-flex;
       margin-top: 8px;
-      display: inline-block;
       min-width: 48px;
+      justify-content: center;
       padding: 5px 12px;
       border-radius: 999px;
-      background: #fff0ba;
-      color: #7b5a1e;
+      background: var(--cream);
+      color: #76581d;
       font-weight: 1000;
       border: 1px solid rgba(205, 158, 53, 0.18);
     }
 
-    .result-main {
-      min-width: 0;
-    }
-
     .pair {
-      display: inline-flex;
+      display: flex;
       gap: 8px;
-      align-items: center;
       flex-wrap: wrap;
-      color: #8b7d91;
+      align-items: center;
+      color: var(--muted);
       font-weight: 900;
       margin-bottom: 10px;
     }
 
     .badge {
       display: inline-flex;
-      align-items: center;
       min-height: 30px;
+      align-items: center;
       padding: 4px 12px;
       border-radius: 999px;
       background: rgba(216, 200, 255, 0.42);
       color: #6c5a85;
       border: 1px solid rgba(119, 94, 168, 0.12);
       font-size: 13px;
-      font-weight: 900;
+      font-weight: 950;
     }
 
     .result-title {
       margin: 0;
       font-size: clamp(28px, 4vw, 44px);
       letter-spacing: -0.05em;
-      color: #4a3953;
     }
 
     .comment {
@@ -340,8 +307,8 @@
       color: #6d5e74;
       line-height: 1.9;
       font-size: 16px;
-      font-weight: 700;
-      max-width: 720px;
+      font-weight: 750;
+      max-width: 760px;
     }
 
     .grid {
@@ -353,28 +320,22 @@
 
     .panel {
       padding: 24px;
-      border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.72);
+      border-radius: 30px;
+      background: var(--soft);
       border: 1px solid var(--line);
       box-shadow: var(--shadow-soft);
-      min-height: 280px;
+      min-height: 260px;
     }
 
-    .panel.wide {
-      grid-column: 1 / -1;
-    }
+    .panel.wide { grid-column: 1 / -1; }
 
     .panel h2 {
       margin: 0 0 18px;
-      color: #4a3953;
-      font-size: 26px;
+      font-size: 25px;
       letter-spacing: -0.04em;
     }
 
-    .axis-list,
-    .comparison-list,
-    .advice-list,
-    .warning-list {
+    .axis-list, .advice-list, .warning-list {
       display: grid;
       gap: 14px;
     }
@@ -382,20 +343,19 @@
     .axis-row {
       display: grid;
       gap: 8px;
+      padding: 10px 0;
     }
 
-    .axis-head,
-    .comparison-row {
+    .axis-head {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 12px;
       align-items: center;
     }
 
-    .axis-label,
-    .comparison-label {
-      font-weight: 950;
-      color: #5b4a62;
+    .axis-label {
+      font-weight: 1000;
+      color: #584560;
     }
 
     .axis-score {
@@ -423,52 +383,111 @@
       color: #918393;
       font-size: 13px;
       line-height: 1.65;
-      font-weight: 700;
-    }
-
-    .comparison-row {
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: rgba(255, 248, 251, 0.82);
-      border: 1px solid rgba(184,122,163,0.14);
-    }
-
-    .comparison-values {
-      text-align: right;
-      color: #6d5e74;
-      font-weight: 950;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .comparison-values span {
-      display: inline-flex;
-      min-width: 72px;
-      justify-content: center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.78);
-    }
-
-    .advice-item,
-    .warning-item {
-      padding: 14px 16px;
-      border-radius: 18px;
-      line-height: 1.8;
       font-weight: 750;
     }
 
+    .advice-item, .warning-item {
+      padding: 14px 16px;
+      border-radius: 18px;
+      line-height: 1.8;
+      font-weight: 780;
+    }
+
     .advice-item {
-      background: rgba(223, 246, 255, 0.72);
+      background: rgba(223, 246, 255, 0.74);
       border: 1px solid rgba(84, 177, 218, 0.13);
       color: #526a79;
     }
 
     .warning-item {
-      background: rgba(255, 240, 186, 0.72);
+      background: rgba(255, 240, 186, 0.74);
       border: 1px solid rgba(210, 161, 58, 0.16);
       color: #755d26;
+    }
+
+    .comparison-card {
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(184,122,163,0.16);
+      background: rgba(255,255,255,0.58);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: minmax(130px, 1fr) minmax(140px, 1.1fr) minmax(140px, 1.1fr);
+    }
+
+    .comparison-cell {
+      padding: 13px 15px;
+      border-bottom: 1px solid rgba(184,122,163,0.11);
+      border-right: 1px solid rgba(184,122,163,0.11);
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+      font-weight: 780;
+    }
+
+    .comparison-cell:nth-child(3n) {
+      border-right: 0;
+    }
+
+    .comparison-head {
+      background: rgba(255, 224, 242, 0.72);
+      color: #67486b;
+      font-weight: 1000;
+    }
+
+    .comparison-label {
+      color: #7e6c84;
+      font-weight: 950;
+    }
+
+    .details-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .detail-card {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.66);
+      border: 1px solid rgba(184,122,163,0.14);
+    }
+
+    .detail-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .detail-title {
+      font-weight: 1000;
+      color: #55435e;
+    }
+
+    .detail-score {
+      font-weight: 1000;
+      color: #bf5b9d;
+      background: rgba(255, 224, 242, 0.72);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    .detail-text {
+      color: #806f85;
+      line-height: 1.7;
+      font-weight: 750;
+      font-size: 14px;
+    }
+
+    .detail-values {
+      margin-top: 8px;
+      color: #9a899c;
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.7;
     }
 
     .empty {
@@ -476,7 +495,7 @@
       border-radius: 18px;
       color: #918393;
       background: rgba(255,255,255,0.62);
-      font-weight: 800;
+      font-weight: 850;
     }
 
     .debug {
@@ -501,40 +520,24 @@
     }
 
     @media (max-width: 900px) {
-      .form-card {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .result-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .panel.wide {
-        grid-column: auto;
-      }
+      .form-card { grid-template-columns: 1fr 1fr; }
+      .result-card { grid-template-columns: 1fr; text-align: center; }
+      .grid { grid-template-columns: 1fr; }
+      .panel.wide { grid-column: auto; }
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 640px) {
       .page {
-        width: min(100% - 20px, 1120px);
+        width: min(100% - 20px, 1160px);
         padding-top: 18px;
       }
 
-      .hero,
-      .result-card,
-      .panel {
+      .hero, .result-card, .panel {
         padding: 20px;
         border-radius: 26px;
       }
 
-      .form-card {
-        grid-template-columns: 1fr;
-      }
+      .form-card { grid-template-columns: 1fr; }
 
       .app-icon {
         width: 58px;
@@ -543,11 +546,7 @@
         font-size: 30px;
       }
 
-      input,
-      select,
-      button {
-        height: 54px;
-      }
+      input, select, button { height: 54px; }
 
       .score-ring {
         width: 180px;
@@ -559,17 +558,20 @@
         height: 132px;
       }
 
-      .score-number {
-        font-size: 48px;
-      }
+      .score-number { font-size: 48px; }
 
-      .comparison-row {
+      .comparison-grid {
         grid-template-columns: 1fr;
       }
 
-      .comparison-values {
-        text-align: left;
-        justify-content: flex-start;
+      .comparison-cell {
+        border-right: 0;
+      }
+
+      .comparison-cell[data-mobile-label]::before {
+        content: attr(data-mobile-label) "：";
+        color: #9a899c;
+        font-weight: 1000;
       }
     }
   </style>
@@ -577,12 +579,12 @@
 <body>
   <main class="page">
     <section class="hero">
-      <div class="brand-row">
+      <div class="brand">
         <div class="app-icon" aria-hidden="true">🎮</div>
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDを入れると、公開プロフィール系データから「実力差」「ランク帯」「活動量」「ガチ度」「補完性」を見て、一緒に組んだときの相性を出します。
+        2人のEpic IDから、ランク帯・活動量・大会経験・ガチ度・補完性を見て、一緒に組んだときの相性を診断します。
       </p>
 
       <form id="diagnoseForm" class="form-card">
@@ -622,7 +624,7 @@
         </div>
       </div>
 
-      <div class="result-main">
+      <div>
         <div class="pair">
           <span id="playerNames">Epic IDを入れて診断してください</span>
           <span id="sourceBadge" class="badge">公開プロフィール診断</span>
@@ -634,14 +636,14 @@
 
     <section class="grid">
       <div class="panel">
-        <h2>5軸スコア</h2>
+        <h2>相性パラメータ</h2>
         <div id="axesList" class="axis-list">
           <div class="empty">診断後に表示されます。</div>
         </div>
       </div>
 
       <div class="panel">
-        <h2>診断コメント</h2>
+        <h2>遊び方のコツ</h2>
         <div id="adviceList" class="advice-list">
           <div class="empty">遊び方のコツがここに出ます。</div>
         </div>
@@ -649,8 +651,15 @@
 
       <div class="panel wide">
         <h2>比較データ</h2>
-        <div id="comparisonList" class="comparison-list">
+        <div id="comparisonList">
           <div class="empty">比較できるデータがここに出ます。</div>
+        </div>
+      </div>
+
+      <div class="panel wide">
+        <h2>パラメータ算出根拠</h2>
+        <div id="detailsList" class="details-list">
+          <div class="empty">各パラメータの根拠と数字がここに出ます。</div>
         </div>
       </div>
 
@@ -695,8 +704,7 @@
         console.log("diagnose response", data);
 
         if (!res.ok || !data.ok) {
-          const message = buildErrorMessage(data);
-          throw new Error(message);
+          throw new Error(buildErrorMessage(data));
         }
 
         renderResult(data);
@@ -730,13 +738,14 @@
 
       const badge = document.getElementById("sourceBadge");
       if (badge) {
-        badge.textContent = data.source ? sourceLabel(data.source) : "公開プロフィール診断";
+        badge.textContent = sourceLabel(data.source);
       }
 
       renderScoreRing(score);
       renderAxes(data);
       renderAdvice(data);
-      renderComparisons(data);
+      renderComparisons(data, player1, player2);
+      renderCalculationDetails(data);
       renderWarnings(data);
     }
 
@@ -748,7 +757,7 @@
       root.innerHTML = "";
 
       if (axes.length === 0) {
-        root.innerHTML = `<div class="empty">5軸スコアを取得できませんでした。</div>`;
+        root.innerHTML = `<div class="empty">相性パラメータを取得できませんでした。</div>`;
         return;
       }
 
@@ -773,28 +782,14 @@
         root.appendChild(row);
       }
     }
-function setText(id, value) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = value == null ? "" : String(value);
-}
+
     function normalizeAxes(data) {
       if (Array.isArray(data.axesList)) {
-        return data.axesList.map((axis) => ({
-          key: axis.key,
-          label: axis.label,
-          score: axis.score,
-          description: axis.description
-        }));
+        return data.axesList;
       }
 
       if (Array.isArray(data.axes)) {
-        return data.axes.map((axis) => ({
-          key: axis.key,
-          label: axis.label,
-          score: axis.score,
-          description: axis.description
-        }));
+        return data.axes;
       }
 
       if (data.axes && typeof data.axes === "object") {
@@ -815,17 +810,9 @@ function setText(id, value) {
 
       const items = [];
 
-      if (Array.isArray(data.comments)) {
-        items.push(...data.comments);
-      }
-
-      if (Array.isArray(data.advice)) {
-        items.push(...data.advice);
-      }
-
-      if (items.length === 0 && data.comment) {
-        items.push(data.comment);
-      }
+      if (Array.isArray(data.comments)) items.push(...data.comments);
+      if (Array.isArray(data.advice)) items.push(...data.advice);
+      if (items.length === 0 && data.comment) items.push(data.comment);
 
       root.innerHTML = "";
 
@@ -842,7 +829,7 @@ function setText(id, value) {
       }
     }
 
-    function renderComparisons(data) {
+    function renderComparisons(data, player1, player2) {
       const root = document.getElementById("comparisonList");
       if (!root) return;
 
@@ -855,23 +842,64 @@ function setText(id, value) {
         return;
       }
 
+      const p1Name = toText(player1.displayName, "プレイヤー1");
+      const p2Name = toText(player2.displayName, "プレイヤー2");
+
+      const card = document.createElement("div");
+      card.className = "comparison-card";
+
+      const grid = document.createElement("div");
+      grid.className = "comparison-grid";
+
+      grid.appendChild(cell("項目", "comparison-cell comparison-head"));
+      grid.appendChild(cell(p1Name, "comparison-cell comparison-head"));
+      grid.appendChild(cell(p2Name, "comparison-cell comparison-head"));
+
       for (const item of comparisons) {
         const label = toText(item.label, "-");
         const suffix = toText(item.suffix, "");
-        const p1 = formatValue(item.player1, suffix);
-        const p2 = formatValue(item.player2, suffix);
 
-        const row = document.createElement("div");
-        row.className = "comparison-row";
-        row.innerHTML = `
-          <div class="comparison-label">${escapeHtml(label)}</div>
-          <div class="comparison-values">
-            <span>${escapeHtml(p1)}</span>
-            <span>${escapeHtml(p2)}</span>
+        grid.appendChild(cell(label, "comparison-cell comparison-label"));
+        grid.appendChild(cell(formatValue(item.player1, suffix), "comparison-cell", p1Name));
+        grid.appendChild(cell(formatValue(item.player2, suffix), "comparison-cell", p2Name));
+      }
+
+      card.appendChild(grid);
+      root.appendChild(card);
+    }
+
+    function renderCalculationDetails(data) {
+      const root = document.getElementById("detailsList");
+      if (!root) return;
+
+      const details = Array.isArray(data.calculationDetails) ? data.calculationDetails : [];
+
+      root.innerHTML = "";
+
+      if (details.length === 0) {
+        root.innerHTML = `<div class="empty">算出根拠を取得できませんでした。</div>`;
+        return;
+      }
+
+      for (const detail of details) {
+        const card = document.createElement("div");
+        card.className = "detail-card";
+
+        card.innerHTML = `
+          <div class="detail-top">
+            <div class="detail-title">${escapeHtml(toText(detail.label, "-"))}</div>
+            <div class="detail-score">${escapeHtml(formatValue(detail.score, ""))}</div>
+          </div>
+          <div class="detail-text">${escapeHtml(toText(detail.formula, ""))}</div>
+          <div class="detail-text">${escapeHtml(toText(detail.basis, ""))}</div>
+          <div class="detail-values">
+            P1: ${escapeHtml(formatValue(detail.player1, ""))}
+            ／ P2: ${escapeHtml(formatValue(detail.player2, ""))}
+            ／ 差: ${escapeHtml(formatValue(detail.diff, ""))}
           </div>
         `;
 
-        root.appendChild(row);
+        root.appendChild(card);
       }
     }
 
@@ -902,8 +930,15 @@ function setText(id, value) {
     function renderScoreRing(score) {
       const ring = document.getElementById("scoreRing");
       if (!ring) return;
-
       ring.style.setProperty("--score", String(clamp(toNumber(score, 0), 0, 100)));
+    }
+
+    function cell(value, className, mobileLabel) {
+      const div = document.createElement("div");
+      div.className = className;
+      if (mobileLabel) div.setAttribute("data-mobile-label", mobileLabel);
+      div.textContent = value == null ? "" : String(value);
+      return div;
     }
 
     function setLoading(isLoading) {
@@ -923,13 +958,8 @@ function setText(id, value) {
     }
 
     function buildErrorMessage(data) {
-      if (!data) {
-        return "診断に失敗しました。";
-      }
-
-      if (data.error) {
-        return data.error;
-      }
+      if (!data) return "診断に失敗しました。";
+      if (data.error) return data.error;
 
       if (Array.isArray(data.players)) {
         const detail = data.players
@@ -937,26 +967,28 @@ function setText(id, value) {
           .filter(Boolean)
           .join(" / ");
 
-        if (detail) {
-          return detail;
-        }
+        if (detail) return detail;
       }
 
       return "診断に失敗しました。";
     }
 
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = value == null ? "" : String(value);
+    }
+
     function sourceLabel(source) {
-      if (source === "profile_ranked_progress_level_events") {
-        return "公開プロフィール診断";
+      if (source === "profile_ranked_progress_level_events_v2") {
+        return "公開プロフィール診断 v2";
       }
 
-      return String(source);
+      return source ? String(source) : "公開プロフィール診断";
     }
 
     function formatValue(value, suffix) {
-      if (value == null) {
-        return "-";
-      }
+      if (value == null) return "-";
 
       if (typeof value === "number") {
         return `${value}${suffix}`;
