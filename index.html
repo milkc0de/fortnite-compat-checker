@@ -584,7 +584,7 @@
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDから、K/D・キル/試合・ビクロイ率・Top率・ランク傾向を見て、相性を100点満点で診断します。これは公開戦績から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。戦績取得には、フォートナイト側の「パブリックゲームの統計情報の表示」をオンにする必要があります。
+        2人のEpic IDから、K/D・キル/試合・ビクロイ率・Top率・モード傾向を解析して、相性を100点満点で診断します。Creative・Bot・Respawn系は主軸から除外します。これは公開戦績から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。
       </p>
 
       <form id="diagnoseForm" class="form-card">
@@ -627,7 +627,7 @@
       <div>
         <div class="pair">
           <span id="playerNames">2人のEpic IDを入れて診断してください</span>
-          <span id="sourceBadge" class="badge">参考までの戦績相性診断</span>
+          <span id="sourceBadge" class="badge">参考までの戦績相性診断 v16</span>
         </div>
         <h2 id="resultTitle" class="result-title">まだ診断していません</h2>
         <p id="commentText" class="comment">2人のIDを入れて「診断する」を押すと、ここに結果が出ます。</p>
@@ -673,12 +673,12 @@
 
     <div class="privacy-note">
       <h2>戦績が取れないとき</h2>
-      <p>フォートナイト側で「パブリックゲームの統計情報の表示」がオフだと、K/D・ビクロイ率・Top率などを取得できません。</p>
+      <p>フォートナイト側で「ゲーム統計データの公開」がオフだと、K/D・ビクロイ率・Top率などを取得できません。</p>
       <ol>
-        <li>フォートナイトのメニューから「設定（歯車アイコン）」を開きます。</li>
-        <li>一番右側の「アカウントとプライバシー（人型アイコン）」を選びます。</li>
-        <li>「ゲームプレイのプライバシー」まで下にスクロールします。</li>
-        <li>「パブリックゲームの統計情報の表示」をオンにして適用します。</li>
+        <li>フォートナイトを起動し、設定メニューを開きます。</li>
+        <li>一番右のタブ「アカウントとプライバシー」に移動します。</li>
+        <li>「ゲームプレイプライバシー」までスクロールします。</li>
+        <li>「ゲーム統計データの公開」をオンにして適用します。</li>
       </ol>
     </div>
 
@@ -980,7 +980,8 @@
         return `${base}
 
 戦績を公開する設定:
-${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
+${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("
+")}`;
       }
 
       return base;
@@ -993,7 +994,7 @@ ${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
     }
 
     function sourceLabel(source) {
-      return "参考までの戦績相性診断";
+      return "参考までの戦績相性診断 v16";
     }
 
     function formatValue(value, suffix) {
