@@ -584,7 +584,7 @@
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDから、K/D・キル/試合・ビクロイ率・Top率・モード傾向を解析して、相性を100点満点で診断します。値が取れないプレイヤーは0点扱いせず、非公開または取得不可として扱います。これは公開戦績から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。
+        2人のEpic IDから、K/D・キル/試合・ビクロイ率・Top率・モード傾向を解析して、相性を100点満点で診断します。値が取れないプレイヤーは0点扱いせず、非公開または取得不可として診断を止めます。これは公開戦績から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。
       </p>
 
       <form id="diagnoseForm" class="form-card">
@@ -627,7 +627,7 @@
       <div>
         <div class="pair">
           <span id="playerNames">2人のEpic IDを入れて診断してください</span>
-          <span id="sourceBadge" class="badge">参考までの戦績相性診断 v19</span>
+          <span id="sourceBadge" class="badge">参考までの戦績相性診断 v20</span>
         </div>
         <h2 id="resultTitle" class="result-title">まだ診断していません</h2>
         <p id="commentText" class="comment">2人のIDを入れて「診断する」を押すと、ここに結果が出ます。</p>
@@ -681,6 +681,7 @@
         <li>「ゲーム統計データの公開」をオンにして適用します。</li>
       </ol>
     </div>
+
   </main>
 
   <script>
@@ -971,15 +972,21 @@
       if (!data) return "エラーが発生しました。";
 
       const base = data.error || data.reason || "エラーが発生しました。";
+      const playerLines = Array.isArray(data.players)
+        ? data.players.map((p) => {
+            const name = p.displayName || "unknown";
+            const reason = p.reason || p.error || "取得不可";
+            const matches = typeof p.coreMatches === "number" ? ` / 試合数: ${p.coreMatches}` : "";
+            const keys = typeof p.coreKeys === "number" ? ` / 分類キー: ${p.coreKeys}` : "";
+            return `・${name}: ${reason}${matches}${keys}`;
+          }).join("\n")
+        : "";
 
-      if (Array.isArray(data.privacyGuide) && data.privacyGuide.length > 0) {
-        return `${base}
+      const guide = Array.isArray(data.privacyGuide) && data.privacyGuide.length > 0
+        ? `\n\n戦績を公開する設定:\n${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("\n")}`
+        : "";
 
-戦績を公開する設定:
-${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
-      }
-
-      return base;
+      return `${base}${playerLines ? "\n\n" + playerLines : ""}${guide}`;
     }
 
     function setText(id, value) {
@@ -989,7 +996,7 @@ ${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
     }
 
     function sourceLabel(source) {
-      return "参考までの戦績相性診断 v19";
+      return "参考までの戦績相性診断 v20";
     }
 
     function formatValue(value, suffix) {
