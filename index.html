@@ -584,7 +584,7 @@
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDから、K/D・キル/試合・ビクロイ率・Top率・モード傾向を解析して、相性を100点満点で診断します。Reload・OG・通常BR・ゼロビルドも別枠で集計します。これは公開戦績から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。
+        2人のEpic IDから、K/D・キル/試合・ビクロイ率・Top率・モード傾向を解析して、相性を100点満点で診断します。Reload・OG・通常BR・ゼロビルド・Bots系も別枠で集計します。これは公開戦績から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。
       </p>
 
       <form id="diagnoseForm" class="form-card">
@@ -627,7 +627,7 @@
       <div>
         <div class="pair">
           <span id="playerNames">2人のEpic IDを入れて診断してください</span>
-          <span id="sourceBadge" class="badge">参考までの戦績相性診断 v17</span>
+          <span id="sourceBadge" class="badge">参考までの戦績相性診断 v18</span>
         </div>
         <h2 id="resultTitle" class="result-title">まだ診断していません</h2>
         <p id="commentText" class="comment">2人のIDを入れて「診断する」を押すと、ここに結果が出ます。</p>
@@ -929,7 +929,6 @@
 
       panel.style.display = "";
 
-      
       for (const warning of warnings) {
         const div = document.createElement("div");
         div.className = "warning-item";
@@ -978,7 +977,8 @@
         return `${base}
 
 戦績を公開する設定:
-${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
+${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("
+")}`;
       }
 
       return base;
@@ -991,7 +991,7 @@ ${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
     }
 
     function sourceLabel(source) {
-      return "参考までの戦績相性診断 v17";
+      return "参考までの戦績相性診断 v18";
     }
 
     function formatValue(value, suffix) {
