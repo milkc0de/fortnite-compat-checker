@@ -3,24 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>フォートナイト相性診断 | milkc0de</title>
-<meta name="description" content="2人のEpic IDを入れると、公開戦績からK/D・ビクロイ率・Top率・モード傾向などを見て、一緒に組んだときの相性を診断できます。あくまでも参考程度の遊び診断です。">
-
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="milkc0de">
-<meta property="og:url" content="https://milkc0de.github.io/fortnite-compat-checker/">
-<meta property="og:title" content="フォートナイト相性診断">
-<meta property="og:description" content="2人のEpic IDから、公開戦績をもとに一緒に組んだときの相性を診断します。あくまでも参考程度の遊び診断です。">
-<meta property="og:image" content="https://milkc0de.github.io/fortnite-compat-checker/ogp.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="フォートナイト相性診断">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="フォートナイト相性診断">
-<meta name="twitter:description" content="2人のEpic IDから、公開戦績をもとに一緒に組んだときの相性を診断します。あくまでも参考程度の遊び診断です。">
-<meta name="twitter:image" content="https://milkc0de.github.io/fortnite-compat-checker/ogp.png">
-  
+  <title>Fortnite 相性診断</title>
+  <meta name="description" content="2人のEpic IDから、公開プロフィール情報を使って一緒に組むときの相性を診断します。" />
   <style>
     :root {
       --bg-1: #fff9fd;
@@ -600,7 +584,7 @@
         <h1>Fortnite 相性診断</h1>
       </div>
       <p class="lead">
-        2人のEpic IDから、K/D・キル/試合・ビクロイ率・Top率・モード傾向を解析して、相性を100点満点で診断します。Creative・Bot・Respawn系は主軸から除外します。これは公開戦績から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。
+        2人のEpic IDから、K/D・キル/試合・ビクロイ率・Top率・モード傾向を解析して、相性を100点満点で診断します。Reload・OG・通常BR・ゼロビルドも別枠で集計します。これは公開戦績から作る<strong>参考までの遊び診断</strong>で、実力や人格を断定するものではありません。
       </p>
 
       <form id="diagnoseForm" class="form-card">
@@ -643,7 +627,7 @@
       <div>
         <div class="pair">
           <span id="playerNames">2人のEpic IDを入れて診断してください</span>
-          <span id="sourceBadge" class="badge">参考までの戦績相性診断 v16</span>
+          <span id="sourceBadge" class="badge">参考までの戦績相性診断 v17</span>
         </div>
         <h2 id="resultTitle" class="result-title">まだ診断していません</h2>
         <p id="commentText" class="comment">2人のIDを入れて「診断する」を押すと、ここに結果が出ます。</p>
@@ -697,7 +681,6 @@
         <li>「ゲーム統計データの公開」をオンにして適用します。</li>
       </ol>
     </div>
-
 
   </main>
 
@@ -994,7 +977,8 @@
         return `${base}
 
 戦績を公開する設定:
-${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
+${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("
+")}`;
       }
 
       return base;
@@ -1007,7 +991,7 @@ ${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
     }
 
     function sourceLabel(source) {
-      return "参考までの戦績相性診断 v16";
+      return "参考までの戦績相性診断 v17";
     }
 
     function formatValue(value, suffix) {
