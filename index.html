@@ -229,7 +229,7 @@
       height: 210px;
       border-radius: 50%;
       background:
-        conic-gradient(var(--pink-2) 0 calc(var(--score) * 1%), rgba(184,122,163,0.14) 0 100%);
+        conic-gradient(var(--pink-2) 0 calc(var(--score) * 1%j), rgba(184,122,163,0.14) 0 100%);
       display: grid;
       place-items: center;
       box-shadow: var(--shadow-soft);
@@ -977,8 +977,7 @@
         return `${base}
 
 戦績を公開する設定:
-${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("
-")}`;
+${data.privacyGuide.map((item, index) => `${index + 1}. ${item}`).join("")}`;
       }
 
       return base;
